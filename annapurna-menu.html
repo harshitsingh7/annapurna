@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Annapurna Ravi Chaap Corner</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --primary: #d33131;
+  --secondary: #1d4ed8;
+  --bg: #fefce8;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --shadow: 0 2px 12px -2px rgba(0,0,0,0.09);
+  --kcal: #f97316;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+/* HEADER */
+header { position: sticky; top: 0; z-index: 100; background: rgba(254,252,232,0.96); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(211,49,49,0.12); padding: 12px 16px 0; }
+.hdr { display: flex; align-items: center; justify-content: space-between; max-width: 480px; margin: 0 auto; }
+.logo { display: flex; flex-direction: column; align-items: flex-start; }
+.logo-sat { font-size: 9px; font-weight: 800; color: var(--primary); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 1px; }
+.logo-main { display: flex; align-items: baseline; font-weight: 900; letter-spacing: -1px; }
+.logo-hi { color: var(--primary); font-size: 26px; }
+.logo-en { color: var(--secondary); font-size: 22px; }
+.logo-sub { font-size: 10px; font-weight: 700; color: var(--primary); margin-top: 1px; }
+.srch-btn { width: 36px; height: 36px; border-radius: 50%; background: rgba(211,49,49,0.08); border: none; cursor: pointer; color: var(--primary); font-size: 18px; display: flex; align-items: center; justify-content: center; }
+.srch-btn:hover { background: rgba(211,49,49,0.16); }
+
+.search-bar { max-width: 480px; margin: 8px auto 0; display: none; }
+.search-bar.on { display: block; }
+.search-bar input { width: 100%; padding: 9px 14px 9px 38px; border: 1.5px solid rgba(211,49,49,0.2); border-radius: 12px; font-family: inherit; font-size: 14px; outline: none; background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E") no-repeat 12px center; }
+.search-bar input:focus { border-color: var(--primary); }
+
+.tabs { display: flex; gap: 7px; overflow-x: auto; padding: 10px 0 11px; max-width: 480px; margin: 0 auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { white-space: nowrap; padding: 5px 12px; border-radius: 999px; font-size: 11.5px; font-weight: 600; border: 1.5px solid rgba(211,49,49,0.2); background: white; color: #374151; cursor: pointer; font-family: inherit; transition: all 0.2s; flex-shrink: 0; }
+.tab.on { background: var(--primary); color: white; border-color: var(--primary); }
+
+/* MAIN */
+main { max-width: 480px; margin: 0 auto; padding: 0 14px 80px; }
+#sRes { max-width: 480px; margin: 0 auto; padding: 0 14px 80px; display: none; }
+
+/* HERO BANNER */
+.hero-banner {
+  margin: 12px 0 10px; border-radius: 16px; overflow: hidden;
+  height: 165px; position: relative;
+  background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 40%, #b91c1c 70%, #dc2626 100%);
+}
+.hero-pattern {
+  position: absolute; inset: 0; opacity: 0.07;
+  background-image: radial-gradient(circle, white 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.hero-ov { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%); }
+.hero-food { position: absolute; right: -10px; top: -10px; font-size: 110px; opacity: 0.18; transform: rotate(15deg); }
+.hero-info { position: absolute; bottom: 12px; left: 14px; color: white; }
+.hero-info h1 { font-size: 16px; font-weight: 800; }
+.hero-meta { font-size: 11px; opacity: 0.85; margin-top: 3px; display: flex; align-items: center; gap: 5px; }
+.open-tag { position: absolute; top: 10px; right: 10px; background: #22c55e; color: white; font-size: 9px; font-weight: 800; padding: 3px 9px; border-radius: 999px; }
+
+/* PHOTO STRIP */
+.strip { display: flex; gap: 8px; overflow-x: auto; padding: 2px 0 12px; scrollbar-width: none; }
+.strip::-webkit-scrollbar { display: none; }
+.strip-item { flex-shrink: 0; cursor: pointer; }
+.strip-img {
+  width: 80px; height: 80px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 34px; transition: transform 0.25s, box-shadow 0.25s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); position: relative; overflow: hidden;
+}
+.strip-img:hover { transform: scale(1.08) rotate(-1.5deg); box-shadow: 0 6px 18px rgba(0,0,0,0.2); }
+.strip-img:active { transform: scale(0.95); }
+.strip-cap { font-size: 10px; font-weight: 600; color: var(--muted); text-align: center; margin-top: 4px; max-width: 80px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* KCAL NOTE */
+.kcal-note { background: rgba(249,115,22,0.07); border: 1px solid rgba(249,115,22,0.2); border-radius: 12px; padding: 9px 13px; margin-bottom: 16px; font-size: 12px; color: #92400e; display: flex; align-items: center; gap: 7px; }
+
+/* COMBO CARD */
+.combo {
+  background: linear-gradient(135deg,#d33131,#9b1c1c);
+  border-radius: 16px; padding: 15px; color: white;
+  margin-bottom: 20px; position: relative; overflow: hidden;
+  box-shadow: 0 8px 24px -4px rgba(211,49,49,.4);
+}
+.combo-badge { position: absolute; top: 10px; right: 10px; background: #facc15; color: #7f1d1d; font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 999px; text-transform: uppercase; }
+.combo h3 { font-size: 17px; font-weight: 800; margin-bottom: 3px; }
+.combo p { font-size: 12px; opacity: .88; line-height: 1.55; margin-bottom: 10px; }
+.combo-foot { display: flex; justify-content: space-between; align-items: center; }
+.combo-price { font-size: 24px; font-weight: 900; }
+.combo-kcal { background: rgba(255,255,255,0.2); font-size: 12px; font-weight: 700; padding: 5px 11px; border-radius: 999px; }
+.combo-bg { position: absolute; right: -12px; bottom: -12px; font-size: 80px; opacity: .1; }
+
+/* SECTION */
+section { margin-bottom: 22px; }
+.sh { display: flex; align-items: center; gap: 7px; margin-bottom: 10px; }
+.sb { width: 4px; height: 20px; border-radius: 2px; flex-shrink: 0; }
+.sb.r { background: var(--primary); }
+.sb.b { background: var(--secondary); }
+.st { font-size: 16px; font-weight: 800; }
+.ss { font-size: 11px; color: var(--muted); margin-left: auto; }
+.slbl { font-size: 11.5px; font-weight: 700; color: var(--muted); margin: 11px 0 6px 2px; }
+
+/* ITEM CARD */
+.ic {
+  background: white; border-radius: 13px; padding: 9px 11px;
+  display: flex; align-items: center; gap: 9px;
+  box-shadow: var(--shadow); margin-bottom: 7px;
+  cursor: pointer; transition: transform 0.18s, box-shadow 0.18s;
+  -webkit-tap-highlight-color: transparent;
+}
+.ic:hover { transform: translateY(-2px); box-shadow: 0 6px 20px -4px rgba(211,49,49,.15); }
+.ic:active { transform: scale(0.97); }
+.ic-img {
+  width: 60px; height: 60px; border-radius: 10px;
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  font-size: 26px; position: relative; overflow: hidden;
+}
+.ic-info { flex: 1; min-width: 0; }
+.ic-name { font-weight: 700; font-size: 13px; margin-bottom: 2px; display: flex; align-items: center; gap: 4px; }
+.vd { width: 6px; height: 6px; background: #22c55e; border-radius: 50%; flex-shrink: 0; }
+.ic-price { font-size: 12px; font-weight: 700; color: var(--primary); }
+.ic-price.b { color: var(--secondary); }
+.kp { display: flex; align-items: center; gap: 3px; background: rgba(249,115,22,0.1); color: var(--kcal); font-size: 10px; font-weight: 700; padding: 3px 7px; border-radius: 999px; white-space: nowrap; border: 1px solid rgba(249,115,22,0.2); flex-shrink: 0; }
+
+/* TIKKA CARD */
+.tkk { background: white; border-radius: 13px; padding: 9px 11px; display: flex; align-items: center; gap: 9px; box-shadow: var(--shadow); border-left: 4px solid var(--secondary); margin-bottom: 7px; cursor: pointer; transition: transform 0.18s, box-shadow 0.18s; -webkit-tap-highlight-color: transparent; }
+.tkk:hover { transform: translateY(-2px); box-shadow: 0 6px 20px -4px rgba(29,78,216,.15); }
+.tkk:active { transform: scale(0.97); }
+
+/* TABLE */
+.tbl { background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); margin-bottom: 7px; }
+.tr { display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; border-bottom: 1px solid rgba(0,0,0,.04); cursor: pointer; transition: background 0.12s; }
+.tr:last-child { border-bottom: none; }
+.tr:hover { background: rgba(211,49,49,0.03); }
+.tr:active { background: rgba(211,49,49,0.07); }
+.tn { font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 5px; flex: 1; }
+.tr-r { display: flex; align-items: center; gap: 7px; }
+.tp { font-weight: 700; font-size: 12px; color: var(--primary); white-space: nowrap; }
+.tp.b { color: var(--secondary); }
+
+/* CURRY GRID */
+.cgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.cc {
+  background: white; border-radius: 13px; padding: 10px; box-shadow: var(--shadow);
+  cursor: pointer; transition: transform 0.18s, box-shadow 0.18s; overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+.cc:hover { transform: translateY(-3px); box-shadow: 0 8px 22px -4px rgba(0,0,0,.12); }
+.cc:active { transform: scale(0.97); }
+.cc-img { width: 100%; height: 64px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 6px; }
+.cc-name { font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 4px; margin-bottom: 2px; }
+.cc-price { font-size: 12px; font-weight: 700; margin-bottom: 5px; }
+
+/* FLAT */
+.ftbl { background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
+.fr { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border-bottom: 1px solid rgba(0,0,0,.04); cursor: pointer; transition: background 0.12s; }
+.fr:last-child { border-bottom: none; }
+.fr:hover { background: rgba(211,49,49,0.03); }
+.fr-n { font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 5px; flex: 1; }
+.fr-p { font-weight: 700; font-size: 12px; color: var(--primary); margin: 0 7px; }
+.twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* DETAIL SHEET */
+.bd { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 200; opacity: 0; pointer-events: none; transition: opacity .3s; }
+.bd.on { opacity: 1; pointer-events: all; }
+.ds {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(102%);
+  width: 100%; max-width: 480px; z-index: 201; background: white;
+  border-radius: 22px 22px 0 0; transition: transform .35s cubic-bezier(.32,.72,0,1);
+  overflow: hidden; max-height: 80vh; overflow-y: auto;
+}
+.ds.on { transform: translateX(-50%) translateY(0); }
+.ds-hero { width: 100%; height: 190px; display: flex; align-items: center; justify-content: center; font-size: 70px; position: relative; }
+.ds-close { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; border-radius: 50%; background: rgba(0,0,0,0.4); border: none; color: white; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+.ds-body { padding: 14px 18px 24px; }
+.ds-name { font-size: 20px; font-weight: 800; margin-bottom: 3px; }
+.ds-price { font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+.ds-kcal { display: inline-flex; align-items: center; gap: 5px; background: rgba(249,115,22,0.1); color: var(--kcal); font-size: 13px; font-weight: 700; padding: 5px 13px; border-radius: 999px; border: 1px solid rgba(249,115,22,0.2); margin-bottom: 11px; }
+.ds-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+/* REVIEWS */
+.rv-form { background: white; border-radius: 16px; padding: 15px; box-shadow: var(--shadow); margin-bottom: 14px; }
+.rv-form label { font-size: 13px; font-weight: 700; display: block; margin-bottom: 7px; }
+.rv-name { width: 100%; border: 1.5px solid rgba(211,49,49,0.2); border-radius: 11px; padding: 9px 13px; font-family: inherit; font-size: 13px; outline: none; margin-bottom: 9px; }
+.rv-name:focus { border-color: var(--primary); }
+.stars { display: flex; gap: 4px; margin-bottom: 10px; }
+.star { font-size: 28px; cursor: pointer; filter: grayscale(1) opacity(0.35); transition: transform 0.15s, filter 0.15s; background: none; border: none; padding: 0; line-height: 1; }
+.star.on { filter: none; }
+.star:hover { transform: scale(1.25); }
+.rv-txt { width: 100%; border: 1.5px solid rgba(211,49,49,0.2); border-radius: 11px; padding: 9px 13px; font-family: inherit; font-size: 13px; outline: none; resize: none; min-height: 75px; }
+.rv-txt:focus { border-color: var(--primary); }
+.rv-sub { width: 100%; margin-top: 9px; background: var(--primary); color: white; border: none; border-radius: 11px; padding: 11px; font-size: 14px; font-weight: 700; font-family: inherit; cursor: pointer; transition: background 0.2s, transform 0.15s; }
+.rv-sub:hover { background: #b02626; }
+.rv-sub:active { transform: scale(0.98); }
+
+.rv-avg { background: white; border-radius: 14px; padding: 12px 14px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.rv-num { font-size: 34px; font-weight: 900; color: var(--text); }
+.rv-card { background: white; border-radius: 13px; padding: 13px; box-shadow: var(--shadow); margin-bottom: 8px; }
+.rv-top { display: flex; justify-content: space-between; margin-bottom: 5px; }
+.rv-cname { font-size: 13px; font-weight: 700; }
+.rv-date { font-size: 11px; color: #d1d5db; }
+.rv-stars { font-size: 12px; }
+.rv-text { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.no-rv { text-align: center; padding: 20px; color: var(--muted); font-size: 13px; }
+
+/* BOTTOM NAV */
+nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,.96); backdrop-filter: blur(12px); border-top: 1px solid rgba(0,0,0,.07); padding: 5px 0 9px; z-index: 100; }
+.nav-in { display: flex; justify-content: space-around; max-width: 480px; margin: 0 auto; }
+.nl { display: flex; flex-direction: column; align-items: center; gap: 2px; color: #9ca3af; font-size: 10px; font-weight: 600; background: none; border: none; cursor: pointer; font-family: inherit; padding: 4px 8px; transition: color .2s; }
+.nl.on { color: var(--primary); }
+.nl-ic { font-size: 20px; }
+
+/* TOAST */
+.toast { position: fixed; bottom: 78px; left: 50%; transform: translateX(-50%) translateY(12px); background: #1a1a2e; color: white; padding: 8px 18px; border-radius: 999px; font-size: 13px; font-weight: 600; opacity: 0; transition: all .3s; z-index: 400; pointer-events: none; white-space: nowrap; }
+.toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+.no-res { text-align: center; padding: 36px 20px; color: var(--muted); font-size: 14px; }
+footer { text-align: center; padding: 16px; color: var(--muted); font-size: 11px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="hdr">
+    <div class="logo">
+      <div class="logo-sat">Sat Saheb</div>
+      <div class="logo-main"><span class="logo-hi">अ</span><span class="logo-en" style="letter-spacing:0.5px">nnapu<span style="letter-spacing:2px">r</span>na</span></div>
+      <div class="logo-sub">by Ravi Chaap Corner</div>
+    </div>
+    <button class="srch-btn" onclick="toggleSearch()">🔍</button>
+  </div>
+  <div class="search-bar" id="sBar">
+    <input id="sInput" placeholder="Search dishes…" oninput="doSearch(this.value)"/>
+  </div>
+  <div class="tabs">
+    <button class="tab on" onclick="goTo('vs',this)">Veg Snacks</button>
+    <button class="tab" onclick="goTo('pt',this)">Paneer Tikka</button>
+    <button class="tab" onclick="goTo('ro',this)">Rolls</button>
+    <button class="tab" onclick="goTo('cn',this)">Chinese</button>
+    <button class="tab" onclick="goTo('cu',this)">Curry</button>
+    <button class="tab" onclick="goTo('cc',this)">Chaap Curry</button>
+    <button class="tab" onclick="goTo('ra',this)">Raita</button>
+    <button class="tab" onclick="goTo('ri',this)">Rice</button>
+    <button class="tab" onclick="goTo('br',this)">Roti</button>
+    <button class="tab" onclick="goTo('rv',this)">⭐ Reviews</button>
+  </div>
+</header>
+
+<main id="menuMain">
+
+  <!-- HERO -->
+  <div class="hero-banner">
+    <div class="hero-pattern"></div>
+    <div class="hero-ov"></div>
+    <div class="hero-food">🍢</div>
+    <div class="open-tag">🟢 Open Now</div>
+    <div class="hero-info">
+      <h1>Annapurna Ravi Chaap Corner</h1>
+      <div class="hero-meta">⭐ 4.5 &nbsp;·&nbsp; Street Food · North Indian</div>
+    </div>
+  </div>
+
+  <!-- PHOTO STRIP -->
+  <div class="strip" id="photoStrip"></div>
+
+  <!-- KCAL NOTE -->
+  <div class="kcal-note">🔥 Calorie values shown are approximate, per half / standard serving.</div>
+
+  <!-- COMBO -->
+  <div class="combo">
+    <div class="combo-badge">⭐ Most Popular</div>
+    <h3>Veg Deluxe Thali</h3>
+    <p>Paneer / Chaap · Mix Veg · Dal · Raita · Rice<br>4 Tawa Roti / 2 Rumali · Sweet · Papad · Achar · Salad</p>
+    <div class="combo-foot">
+      <span class="combo-price">₹210</span>
+      <div class="combo-kcal">🔥 ~850 kcal</div>
+    </div>
+    <div class="combo-bg">🍽️</div>
+  </div>
+
+  <!-- VEG SNACKS -->
+  <section id="vs">
+    <div class="sh"><span class="sb r"></span><span class="st">Veg Snacks</span><span class="ss">Half / Full</span></div>
+    <div id="R_vs"></div>
+  </section>
+
+  <!-- PANEER TIKKA -->
+  <section id="pt">
+    <div class="sh"><span class="sb b"></span><span class="st">Paneer Tikka Items</span><span class="ss">Half / Full</span></div>
+    <div id="R_pt"></div>
+  </section>
+
+  <!-- ROLLS -->
+  <section id="ro">
+    <div class="sh"><span class="sb r"></span><span class="st">Veg Snacks Roll</span><span class="ss">Half / Full</span></div>
+    <div id="R_ro"></div>
+  </section>
+
+  <!-- CHINESE -->
+  <section id="cn">
+    <div class="sh"><span class="sb r"></span><span class="st">Chinese &amp; Noodles</span></div>
+    <div class="slbl">Fried Rice</div><div class="tbl" id="R_fr"></div>
+    <div class="slbl">Noodles &amp; Chowmein</div><div class="tbl" id="R_nd"></div>
+    <div class="slbl">Veg Chinese Snacks</div><div class="tbl" id="R_cs"></div>
+  </section>
+
+  <!-- CURRY -->
+  <section id="cu">
+    <div class="sh"><span class="sb b"></span><span class="st">Indian Curry</span><span class="ss">Half / Full</span></div>
+    <div class="cgrid" id="R_cu"></div>
+  </section>
+
+  <!-- CHAAP CURRY -->
+  <section id="cc">
+    <div class="sh"><span class="sb r"></span><span class="st">Soya Chaap Curry</span><span class="ss">Half / Full</span></div>
+    <div class="cgrid" id="R_cc"></div>
+  </section>
+
+  <!-- RAITA -->
+  <section id="ra">
+    <div class="sh"><span class="sb b"></span><span class="st">Raita</span><span class="ss">Half / Full</span></div>
+    <div class="tbl" id="R_ra"></div>
+  </section>
+
+  <!-- RICE -->
+  <section id="ri">
+    <div class="sh"><span class="sb r"></span><span class="st">Rice &amp; Biryani</span><span class="ss">Half / Full</span></div>
+    <div class="tbl" id="R_ri"></div>
+  </section>
+
+  <!-- ROTI & DRINKS -->
+  <section id="br">
+    <div class="twocol">
+      <div>
+        <div class="sh"><span class="sb r"></span><span class="st" style="font-size:14px">Roti</span></div>
+        <div class="ftbl" id="R_br"></div>
+      </div>
+      <div>
+        <div class="sh"><span class="sb b"></span><span class="st" style="font-size:14px">Drinks</span></div>
+        <div class="ftbl" id="R_dr"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section id="rv">
+    <div class="sh"><span class="sb r"></span><span class="st">Customer Reviews</span></div>
+    <div class="rv-form">
+      <label>✍️ Write a Review</label>
+      <input class="rv-name" id="rvName" placeholder="Your name (e.g. Rahul S.)"/>
+      <div class="stars" id="starsRow">
+        <button class="star" onclick="setStar(1)">⭐</button>
+        <button class="star" onclick="setStar(2)">⭐</button>
+        <button class="star" onclick="setStar(3)">⭐</button>
+        <button class="star" onclick="setStar(4)">⭐</button>
+        <button class="star" onclick="setStar(5)">⭐</button>
+      </div>
+      <textarea class="rv-txt" id="rvTxt" placeholder="Tell others about the food, taste, service…"></textarea>
+      <button class="rv-sub" onclick="submitReview()">Post Review 🙏</button>
+    </div>
+    <div id="rvList"></div>
+  </section>
+
+  <footer>© 2024 Annapurna Ravi Chaap Corner · Hand-crafted flavors, served with love ❤️</footer>
+</main>
+
+<div id="sRes"></div>
+
+<!-- DETAIL SHEET -->
+<div class="bd" id="bd" onclick="closeSh()"></div>
+<div class="ds" id="ds">
+  <div id="dsC"></div>
+  <button class="ds-close" onclick="closeSh()">✕</button>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav>
+  <div class="nav-in">
+    <button class="nl on" id="n0" onclick="showMenu()"><span class="nl-ic">🍽️</span>Menu</button>
+    <button class="nl" id="n1" onclick="openSearch()"><span class="nl-ic">🔍</span>Search</button>
+    <button class="nl" id="n2" onclick="goTo('cu',null);setNav(2)"><span class="nl-ic">🍛</span>Curries</button>
+    <button class="nl" id="n3" onclick="goTo('rv',null);setNav(3)"><span class="nl-ic">⭐</span>Reviews</button>
+  </div>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── DISH DATA ────────────────────────────────────────────────────────────────
+// bg = CSS gradient for image placeholder
+const G = {
+  orange:  'linear-gradient(135deg,#fed7aa,#fb923c)',
+  red:     'linear-gradient(135deg,#fecaca,#f87171)',
+  green:   'linear-gradient(135deg,#bbf7d0,#4ade80)',
+  yellow:  'linear-gradient(135deg,#fef08a,#facc15)',
+  blue:    'linear-gradient(135deg,#bfdbfe,#60a5fa)',
+  purple:  'linear-gradient(135deg,#e9d5ff,#a855f7)',
+  pink:    'linear-gradient(135deg,#fbcfe8,#f472b6)',
+  teal:    'linear-gradient(135deg,#99f6e4,#2dd4bf)',
+  brown:   'linear-gradient(135deg,#d6d3d1,#a8a29e)',
+  amber:   'linear-gradient(135deg,#fde68a,#f59e0b)',
+};
+
+const DESC = {
+  'Malai Chaap':'Silky soya chaap in rich cream marinade, grilled to golden perfection.',
+  'Masala Chaap':'Fiery masala-spiced chaap with our signature secret spice blend. 🌶️',
+  'Hariyali Chaap':'Fresh green herb marinade — mint, coriander, green chilli.',
+  'Achari Chaap':'Tangy pickle-spiced chaap with bold mustardy flavour.',
+  'Afghani Chaap':'Rich Afghani-style cream & cashew marinade, melt-in-mouth texture.',
+  'Malai Stuffed Chaap':'Chaap stuffed with creamy paneer filling — extra indulgent!',
+  'Masala Stuffed Chaap':'Every bite loaded with spiced filling inside this jumbo chaap.',
+  'K.F.C Chaap':'Crispy fried chaap with a crunchy golden coating — our bestseller!',
+  'Malai Paneer Tikka':'Velvety cream-marinated cottage cheese, grilled to perfection.',
+  'Masala Paneer Tikka':'Classic spiced paneer on skewers with smoky char marks.',
+  'Hariyali Paneer Tikka':'Green herb marinated paneer — light, fresh and aromatic.',
+  'Achari Paneer Tikka':'Tangy achari masala coated paneer cubes, bursting with flavour.',
+  'Mushroom Tikka':'Juicy button mushrooms grilled with smoky spices.',
+  'Dal Makhani':'Slow-cooked black lentils in buttery tomato gravy. A classic comfort dish.',
+  'Palak Paneer':'Cottage cheese in smooth spiced spinach gravy. Healthy & delicious.',
+  'Malai Kofta':'Fried potato-paneer dumplings in velvety cashew-tomato sauce.',
+  'Shahi Paneer':'Royal paneer curry with cashew cream — restaurant special.',
+  'Veg Biryani':'Fragrant basmati rice layered with spiced vegetables & saffron.',
+  'Veg Manchurian':'Crispy veg dumplings tossed in Indo-Chinese manchurian sauce.',
+};
+
+const M = {
+  vs:[
+    {id:'vs1',n:'Malai Chaap',p:90,f:150,k:210,bg:G.orange,em:'🍢'},
+    {id:'vs2',n:'Masala Chaap',p:80,f:140,k:195,bg:G.red,em:'🍢'},
+    {id:'vs3',n:'Hariyali Chaap',p:80,f:140,k:185,bg:G.green,em:'🍢'},
+    {id:'vs4',n:'Achari Chaap',p:90,f:150,k:200,bg:G.yellow,em:'🍢'},
+    {id:'vs5',n:'Afghani Chaap',p:90,f:150,k:230,bg:G.amber,em:'🍢'},
+    {id:'vs6',n:'Malai Stuffed Chaap',p:100,f:180,k:280,bg:G.orange,em:'🍢'},
+    {id:'vs7',n:'Masala Stuffed Chaap',p:90,f:150,k:265,bg:G.red,em:'🍢'},
+    {id:'vs8',n:'K.F.C Chaap',p:90,f:150,k:310,bg:G.brown,em:'🍗'},
+  ],
+  pt:[
+    {id:'pt1',n:'Malai Paneer Tikka',p:90,f:150,k:240,bg:G.yellow,em:'🧀'},
+    {id:'pt2',n:'Masala Paneer Tikka',p:80,f:140,k:220,bg:G.orange,em:'🧀'},
+    {id:'pt3',n:'Hariyali Paneer Tikka',p:80,f:140,k:215,bg:G.green,em:'🧀'},
+    {id:'pt4',n:'Achari Paneer Tikka',p:90,f:150,k:225,bg:G.red,em:'🧀'},
+    {id:'pt5',n:'Mushroom Tikka',p:90,f:150,k:130,bg:G.brown,em:'🍄'},
+  ],
+  ro:[
+    {id:'ro1',n:'Malai Chaap Roll',p:110,f:190,k:370,bg:G.orange,em:'🌯'},
+    {id:'ro2',n:'Masala Chaap Roll',p:100,f:180,k:350,bg:G.red,em:'🌯'},
+    {id:'ro3',n:'Hariyali Chaap Roll',p:100,f:180,k:340,bg:G.green,em:'🌯'},
+    {id:'ro4',n:'Achari Chaap Roll',p:110,f:190,k:355,bg:G.yellow,em:'🌯'},
+    {id:'ro5',n:'Afghani Chaap Roll',p:110,f:190,k:390,bg:G.amber,em:'🌯'},
+    {id:'ro6',n:'Malai Stuffed Roll',p:120,f:200,k:430,bg:G.orange,em:'🌯'},
+    {id:'ro7',n:'Masala Stuffed Roll',p:110,f:190,k:415,bg:G.red,em:'🌯'},
+    {id:'ro8',n:'Malai Paneer Tikka Roll',p:110,f:190,k:400,bg:G.yellow,em:'🌯'},
+    {id:'ro9',n:'Masala Paneer Tikka Roll',p:100,f:180,k:380,bg:G.orange,em:'🌯'},
+    {id:'ro10',n:'Hariyali Paneer Tikka Roll',p:110,f:190,k:370,bg:G.green,em:'🌯'},
+    {id:'ro11',n:'Mushroom Tikka Roll',p:110,f:190,k:290,bg:G.brown,em:'🌯'},
+  ],
+  fr:[
+    {id:'fr1',n:'Veg Fried Rice',p:80,f:120,k:280,bg:G.yellow,em:'🍚'},
+    {id:'fr2',n:'Veg Chilli Garlic Fried Rice',p:99,f:150,k:300,bg:G.red,em:'🍚'},
+    {id:'fr3',n:'Paneer Fried Rice',p:120,f:180,k:360,bg:G.amber,em:'🍚'},
+    {id:'fr4',n:'Schezwan Fried Rice',p:130,f:199,k:320,bg:G.orange,em:'🍚'},
+  ],
+  nd:[
+    {id:'nd1',n:'Hakka Noodles',p:110,f:160,k:310,bg:G.yellow,em:'🍜'},
+    {id:'nd2',n:'Hakka Chowmein',p:99,f:150,k:295,bg:G.amber,em:'🍜'},
+    {id:'nd3',n:'Veg Chowmein',p:80,f:120,k:270,bg:G.orange,em:'🍜'},
+    {id:'nd4',n:'Veg Singapore Chowmein',p:99,f:150,k:290,bg:G.red,em:'🍜'},
+    {id:'nd5',n:'Veg Paneer Chowmein',p:120,f:160,k:350,bg:G.yellow,em:'🍜'},
+    {id:'nd6',n:'Veg Mushroom Chowmein',p:120,f:160,k:305,bg:G.brown,em:'🍜'},
+  ],
+  cs:[
+    {id:'cs1',n:'Veg Spring Roll',p:120,k:180,bg:G.yellow,em:'🥚'},
+    {id:'cs2',n:'Paneer Spring Roll',p:140,k:220,bg:G.amber,em:'🥚'},
+    {id:'cs3',n:'Potato Chips',p:70,k:250,bg:G.yellow,em:'🍟'},
+    {id:'cs4',n:'Potato Chilli',p:90,f:130,k:195,bg:G.red,em:'🥔'},
+    {id:'cs5',n:'Potato Honey Chilli',p:110,f:140,k:230,bg:G.orange,em:'🥔'},
+    {id:'cs6',n:'Paneer Chilli',p:170,f:270,k:310,bg:G.red,em:'🧀'},
+    {id:'cs7',n:'Veg Manchurian',p:150,f:250,k:200,bg:G.teal,em:'🥡'},
+    {id:'cs8',n:'Paneer Manchurian',p:180,f:280,k:290,bg:G.blue,em:'🥡'},
+    {id:'cs9',n:'Baby Corn Crispy',p:120,f:210,k:175,bg:G.yellow,em:'🌽'},
+  ],
+  cu:[
+    {id:'cu1',n:'Kadhai Paneer',p:130,f:230,k:320,bg:G.orange,em:'🍛'},
+    {id:'cu2',n:'Paneer Matar Bhurji',p:140,f:250,k:310,bg:G.yellow,em:'🍛'},
+    {id:'cu3',n:'Paneer Tikka Masala',p:130,f:230,k:330,bg:G.red,em:'🍛'},
+    {id:'cu4',n:'Shahi Paneer',p:140,f:250,k:380,bg:G.amber,em:'🍛'},
+    {id:'cu5',n:'Paneer Butter Masala',p:140,f:250,k:370,bg:G.orange,em:'🍛'},
+    {id:'cu6',n:'Malai Kofta',p:120,f:230,k:410,bg:G.yellow,em:'🫕'},
+    {id:'cu7',n:'Mushroom Matar',p:120,f:230,k:180,bg:G.green,em:'🍄'},
+    {id:'cu8',n:'Mix Veg',p:99,f:179,k:160,bg:G.green,em:'🥦'},
+    {id:'cu9',n:'Matar Paneer',p:110,f:199,k:250,bg:G.green,em:'🍛'},
+    {id:'cu10',n:'Paneer Lababdar',p:130,f:250,k:345,bg:G.red,em:'🍛'},
+    {id:'cu11',n:'Kashmiri Paneer',p:120,f:230,k:335,bg:G.pink,em:'🍛'},
+    {id:'cu12',n:'Palak Paneer',p:110,f:199,k:270,bg:G.green,em:'🥬'},
+    {id:'cu13',n:'Kali Mirch Paneer',p:140,f:250,k:355,bg:G.brown,em:'🍛'},
+    {id:'cu14',n:'Dum Aloo Kashmiri',p:110,f:199,k:220,bg:G.amber,em:'🥔'},
+    {id:'cu15',n:'Jeera Aloo',p:99,f:179,k:190,bg:G.yellow,em:'🥔'},
+    {id:'cu16',n:'Dal Makhani',p:120,f:230,k:280,bg:G.red,em:'🫘'},
+    {id:'cu17',n:'Rajma Masala',p:110,f:199,k:240,bg:G.red,em:'🫘'},
+    {id:'cu18',n:'Dal Tadka',p:110,f:199,k:210,bg:G.amber,em:'🫘'},
+    {id:'cu19',n:'Channa Masala',p:110,f:199,k:230,bg:G.amber,em:'🫘'},
+    {id:'cu20',n:'Pindi Channa',p:110,f:199,k:235,bg:G.brown,em:'🫘'},
+  ],
+  cc:[
+    {id:'cc1',n:'Kathmiri Chaap',p:120,f:220,k:290,bg:G.red,em:'🍢'},
+    {id:'cc2',n:'Lababdar Chaap',p:140,f:250,k:340,bg:G.orange,em:'🍢'},
+    {id:'cc3',n:'Hariyali Chaap',p:120,f:220,k:275,bg:G.green,em:'🍢'},
+    {id:'cc4',n:'Chaap Tikka Masala',p:120,f:220,k:305,bg:G.red,em:'🍢'},
+    {id:'cc5',n:'Kadhai Chaap',p:120,f:230,k:310,bg:G.orange,em:'🍢'},
+    {id:'cc6',n:'Shahi Chaap',p:120,f:230,k:360,bg:G.amber,em:'🍢'},
+    {id:'cc7',n:'Kali Mirch Chaap',p:120,f:230,k:295,bg:G.brown,em:'🍢'},
+    {id:'cc8',n:'Chaap Butter Masala',p:120,f:230,k:350,bg:G.red,em:'🍢'},
+    {id:'cc9',n:'Chaap Keema Matar',p:140,f:250,k:330,bg:G.green,em:'🍢'},
+    {id:'cc10',n:'Tawa Chaap',p:120,f:230,k:285,bg:G.orange,em:'🍢'},
+  ],
+  ra:[
+    {id:'ra1',n:'Plain Dahi',p:60,f:99,k:80,bg:G.blue,em:'🥛'},
+    {id:'ra2',n:'Boondi Raita',p:70,f:110,k:110,bg:G.blue,em:'🥣'},
+    {id:'ra3',n:'Mix Raita',p:79,f:120,k:100,bg:G.teal,em:'🥣'},
+    {id:'ra4',n:'Pineapple Raita',p:99,f:140,k:120,bg:G.yellow,em:'🍍'},
+    {id:'ra5',n:'Aloo Raita',p:70,f:110,k:130,bg:G.blue,em:'🥣'},
+    {id:'ra6',n:'Aloo Pudina Raita',p:70,f:110,k:125,bg:G.green,em:'🌿'},
+  ],
+  ri:[
+    {id:'ri1',n:'Plain Rice',p:79,f:120,k:200,bg:G.yellow,em:'🍚'},
+    {id:'ri2',n:'Zeera Rice',p:99,f:140,k:220,bg:G.amber,em:'🍚'},
+    {id:'ri3',n:'Matar Pulao',p:110,f:150,k:250,bg:G.green,em:'🍚'},
+    {id:'ri4',n:'Veg Pulao',p:110,f:150,k:245,bg:G.yellow,em:'🍚'},
+    {id:'ri5',n:'Navratan Pulao',p:199,f:250,k:310,bg:G.pink,em:'🍚'},
+    {id:'ri6',n:'Paneer Pulao',p:120,f:160,k:290,bg:G.orange,em:'🍚'},
+    {id:'ri7',n:'Veg Biryani',p:130,f:170,k:320,bg:G.amber,em:'🍛'},
+    {id:'ri8',n:'Paneer Biryani',p:140,f:180,k:380,bg:G.orange,em:'🍛'},
+    {id:'ri9',n:'Mushroom Biryani',p:140,f:180,k:295,bg:G.brown,em:'🍛'},
+    {id:'ri10',n:'Soya Chaap Biryani',p:130,f:170,k:340,bg:G.red,em:'🍛'},
+    {id:'ri11',n:'Butter Special Rice (Veg Paneer)',p:150,f:190,k:370,bg:G.yellow,em:'🍚'},
+  ],
+  br:[
+    {id:'br1',n:'Tawa Roti',p:10,k:80,bg:G.amber,em:'🫓'},
+    {id:'br2',n:'Rumali Roti',p:10,k:75,bg:G.yellow,em:'🫓'},
+    {id:'br3',n:'Laccha Paratha',p:20,k:160,bg:G.amber,em:'🥙'},
+    {id:'br4',n:'Aloo Paratha',p:40,k:230,bg:G.orange,em:'🥙'},
+    {id:'br5',n:'Veg Mix Paratha',p:40,k:210,bg:G.green,em:'🥙'},
+    {id:'br6',n:'Paneer Paratha',p:60,k:270,bg:G.yellow,em:'🥙'},
+  ],
+  dr:[
+    {id:'dr1',n:'Cold Drinks',p:null,lbl:'MRP',k:140,bg:G.blue,em:'🥤'},
+    {id:'dr2',n:'Water Bottle',p:null,lbl:'MRP',k:0,bg:G.teal,em:'💧'},
+    {id:'dr3',n:'Nimbu Pani',p:20,k:30,bg:G.yellow,em:'🍋'},
+    {id:'dr4',n:'Nimbu Soda',p:40,k:35,bg:G.teal,em:'🥤'},
+    {id:'dr5',n:'Lassi',p:50,k:180,bg:G.blue,em:'🥛'},
+  ],
+};
+
+// ── PHOTO STRIP ───────────────────────────────────────────────────────────────
+const STRIP = [
+  {url:'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=200&q=80&fit=crop',cap:'Malai Chaap',bg:G.orange,em:'🍢'},
+  {url:'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=200&q=80&fit=crop',cap:'Masala Chaap',bg:G.red,em:'🍢'},
+  {url:'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=200&q=80&fit=crop',cap:'Paneer Tikka',bg:G.yellow,em:'🧀'},
+  {url:'https://images.unsplash.com/photo-1563379091339-03246963d28a?w=200&q=80&fit=crop',cap:'Veg Biryani',bg:G.amber,em:'🍛'},
+  {url:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=200&q=80&fit=crop',cap:'Chaap Roll',bg:G.orange,em:'🌯'},
+  {url:'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=200&q=80&fit=crop',cap:'Dal Makhani',bg:G.red,em:'🫘'},
+  {url:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=200&q=80&fit=crop',cap:'Hakka Noodles',bg:G.yellow,em:'🍜'},
+  {url:'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=200&q=80&fit=crop',cap:'Manchurian',bg:G.teal,em:'🥡'},
+  {url:'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=200&q=80&fit=crop',cap:'Palak Paneer',bg:G.green,em:'🥬'},
+  {url:'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=200&q=80&fit=crop',cap:'Shahi Paneer',bg:G.pink,em:'🍛'},
+];
+
+// ── PHOTO MAP — Unsplash free CDN images per dish id ─────────────────────────
+const PHOTOS = {
+  // Veg Snacks (chaap)
+  vs1:'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=300&q=80&fit=crop',
+  vs2:'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=300&q=80&fit=crop',
+  vs3:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&q=80&fit=crop',
+  vs4:'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=300&q=80&fit=crop',
+  vs5:'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=300&q=80&fit=crop',
+  vs6:'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=300&q=80&fit=crop',
+  vs7:'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=300&q=80&fit=crop',
+  vs8:'https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=300&q=80&fit=crop',
+  // Paneer Tikka
+  pt1:'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=300&q=80&fit=crop',
+  pt2:'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=300&q=80&fit=crop',
+  pt3:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&q=80&fit=crop',
+  pt4:'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=300&q=80&fit=crop',
+  pt5:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=300&q=80&fit=crop',
+  // Rolls
+  ro1:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=300&q=80&fit=crop',
+  ro2:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=300&q=80&fit=crop',
+  ro3:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=300&q=80&fit=crop',
+  ro4:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=300&q=80&fit=crop',
+  ro5:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=300&q=80&fit=crop',
+  ro6:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=300&q=80&fit=crop',
+  ro7:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=300&q=80&fit=crop',
+  ro8:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=300&q=80&fit=crop',
+  ro9:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=300&q=80&fit=crop',
+  ro10:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=300&q=80&fit=crop',
+  ro11:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=300&q=80&fit=crop',
+  // Fried Rice
+  fr1:'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=300&q=80&fit=crop',
+  fr2:'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=300&q=80&fit=crop',
+  fr3:'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=300&q=80&fit=crop',
+  fr4:'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=300&q=80&fit=crop',
+  // Noodles
+  nd1:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=300&q=80&fit=crop',
+  nd2:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=300&q=80&fit=crop',
+  nd3:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=300&q=80&fit=crop',
+  nd4:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=300&q=80&fit=crop',
+  nd5:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=300&q=80&fit=crop',
+  nd6:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=300&q=80&fit=crop',
+  // Chinese snacks
+  cs1:'https://images.unsplash.com/photo-1548943487-a2e4e43b4853?w=300&q=80&fit=crop',
+  cs2:'https://images.unsplash.com/photo-1548943487-a2e4e43b4853?w=300&q=80&fit=crop',
+  cs3:'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=300&q=80&fit=crop',
+  cs4:'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=300&q=80&fit=crop',
+  cs5:'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=300&q=80&fit=crop',
+  cs6:'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=300&q=80&fit=crop',
+  cs7:'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=300&q=80&fit=crop',
+  cs8:'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=300&q=80&fit=crop',
+  cs9:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=300&q=80&fit=crop',
+  // Indian Curry
+  cu1:'https://images.unsplash.com/photo-1645177628172-a6b1e1c9f80c?w=300&q=80&fit=crop',
+  cu2:'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=300&q=80&fit=crop',
+  cu3:'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=300&q=80&fit=crop',
+  cu4:'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=300&q=80&fit=crop',
+  cu5:'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=300&q=80&fit=crop',
+  cu6:'https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80&fit=crop',
+  cu7:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=300&q=80&fit=crop',
+  cu8:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&q=80&fit=crop',
+  cu9:'https://images.unsplash.com/photo-1645177628172-a6b1e1c9f80c?w=300&q=80&fit=crop',
+  cu10:'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=300&q=80&fit=crop',
+  cu11:'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=300&q=80&fit=crop',
+  cu12:'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80&fit=crop',
+  cu13:'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=300&q=80&fit=crop',
+  cu14:'https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?w=300&q=80&fit=crop',
+  cu15:'https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?w=300&q=80&fit=crop',
+  cu16:'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=300&q=80&fit=crop',
+  cu17:'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=300&q=80&fit=crop',
+  cu18:'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=300&q=80&fit=crop',
+  cu19:'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=300&q=80&fit=crop',
+  cu20:'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=300&q=80&fit=crop',
+  // Chaap Curry
+  cc1:'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=300&q=80&fit=crop',
+  cc2:'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=300&q=80&fit=crop',
+  cc3:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&q=80&fit=crop',
+  cc4:'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=300&q=80&fit=crop',
+  cc5:'https://images.unsplash.com/photo-1645177628172-a6b1e1c9f80c?w=300&q=80&fit=crop',
+  cc6:'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=300&q=80&fit=crop',
+  cc7:'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=300&q=80&fit=crop',
+  cc8:'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=300&q=80&fit=crop',
+  cc9:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&q=80&fit=crop',
+  cc10:'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=300&q=80&fit=crop',
+  // Raita
+  ra1:'https://images.unsplash.com/photo-1571091655789-405eb7a3a3a8?w=300&q=80&fit=crop',
+  ra2:'https://images.unsplash.com/photo-1571091655789-405eb7a3a3a8?w=300&q=80&fit=crop',
+  ra3:'https://images.unsplash.com/photo-1571091655789-405eb7a3a3a8?w=300&q=80&fit=crop',
+  ra4:'https://images.unsplash.com/photo-1571091655789-405eb7a3a3a8?w=300&q=80&fit=crop',
+  ra5:'https://images.unsplash.com/photo-1571091655789-405eb7a3a3a8?w=300&q=80&fit=crop',
+  ra6:'https://images.unsplash.com/photo-1571091655789-405eb7a3a3a8?w=300&q=80&fit=crop',
+  // Rice
+  ri1:'https://images.unsplash.com/photo-1516684732162-798a0062be99?w=300&q=80&fit=crop',
+  ri2:'https://images.unsplash.com/photo-1516684732162-798a0062be99?w=300&q=80&fit=crop',
+  ri3:'https://images.unsplash.com/photo-1512058533999-6d57b9d8b5c1?w=300&q=80&fit=crop',
+  ri4:'https://images.unsplash.com/photo-1512058533999-6d57b9d8b5c1?w=300&q=80&fit=crop',
+  ri5:'https://images.unsplash.com/photo-1512058533999-6d57b9d8b5c1?w=300&q=80&fit=crop',
+  ri6:'https://images.unsplash.com/photo-1512058533999-6d57b9d8b5c1?w=300&q=80&fit=crop',
+  ri7:'https://images.unsplash.com/photo-1563379091339-03246963d28a?w=300&q=80&fit=crop',
+  ri8:'https://images.unsplash.com/photo-1563379091339-03246963d28a?w=300&q=80&fit=crop',
+  ri9:'https://images.unsplash.com/photo-1563379091339-03246963d28a?w=300&q=80&fit=crop',
+  ri10:'https://images.unsplash.com/photo-1563379091339-03246963d28a?w=300&q=80&fit=crop',
+  ri11:'https://images.unsplash.com/photo-1563379091339-03246963d28a?w=300&q=80&fit=crop',
+  // Roti
+  br1:'https://images.unsplash.com/photo-1598113972436-a10d39a42bf1?w=300&q=80&fit=crop',
+  br2:'https://images.unsplash.com/photo-1598113972436-a10d39a42bf1?w=300&q=80&fit=crop',
+  br3:'https://images.unsplash.com/photo-1598113972436-a10d39a42bf1?w=300&q=80&fit=crop',
+  br4:'https://images.unsplash.com/photo-1628294895950-9805252327bc?w=300&q=80&fit=crop',
+  br5:'https://images.unsplash.com/photo-1628294895950-9805252327bc?w=300&q=80&fit=crop',
+  br6:'https://images.unsplash.com/photo-1628294895950-9805252327bc?w=300&q=80&fit=crop',
+  // Drinks
+  dr1:'https://images.unsplash.com/photo-1581636625402-29b2a704ef13?w=300&q=80&fit=crop',
+  dr2:'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=300&q=80&fit=crop',
+  dr3:'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=300&q=80&fit=crop',
+  dr4:'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=300&q=80&fit=crop',
+  dr5:'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=300&q=80&fit=crop',
+};
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function kp(k) { return `<div class="kp">🔥 ${k}</div>`; }
+
+function imgDiv(it, size) {
+  const url = PHOTOS[it.id];
+  if (url) {
+    return `<img src="${url}" style="width:${size}px;height:${size}px;border-radius:10px;object-fit:cover;flex-shrink:0;" onerror="this.outerHTML='<div class=\\'ic-img\\' style=\\'background:${it.bg};width:${size}px;height:${size}px\\'>${it.em}</div>'" loading="lazy"/>`;
+  }
+  return `<div class="ic-img" style="background:${it.bg};width:${size}px;height:${size}px">${it.em}</div>`;
+}
+
+function openDetail(id) {
+  const it = Object.values(M).flat().find(i=>i.id===id);
+  if(!it) return;
+  const desc = DESC[it.n] || 'A delicious dish prepared fresh every day with quality ingredients.';
+  const url = PHOTOS[it.id];
+  const heroHTML = url
+    ? `<img src="${url}" style="width:100%;height:190px;object-fit:cover;" onerror="this.outerHTML='<div class=\\'ds-hero\\' style=\\'background:${it.bg}\\'>${it.em}</div>'"/>`
+    : `<div class="ds-hero" style="background:${it.bg}">${it.em}</div>`;
+  document.getElementById('dsC').innerHTML = `
+    ${heroHTML}
+    <div class="ds-body">
+      <div class="ds-name">${it.n}</div>
+      <div class="ds-price">₹${it.p}${it.f?' / ₹'+it.f:''}</div>
+      <div class="ds-kcal">🔥 ${it.k} kcal per serving</div>
+      <div class="ds-desc">${desc}</div>
+    </div>`;
+  document.getElementById('bd').classList.add('on');
+  document.getElementById('ds').classList.add('on');
+}
+function closeSh() {
+  document.getElementById('bd').classList.remove('on');
+  document.getElementById('ds').classList.remove('on');
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function icard(it, blue) {
+  return `<div class="ic" onclick="openDetail('${it.id}')">
+    ${imgDiv(it,60)}
+    <div class="ic-info">
+      <div class="ic-name"><span class="vd"></span>${it.n}</div>
+      <div class="ic-price${blue?' b':''}">₹${it.p}${it.f?' / ₹'+it.f:''}</div>
+    </div>
+    ${kp(it.k)}
+  </div>`;
+}
+
+function tkrow(it) {
+  return `<div class="tkk" onclick="openDetail('${it.id}')">
+    ${imgDiv(it,56)}
+    <div class="ic-info">
+      <div class="ic-name">${it.n}</div>
+      <div class="ic-price b">₹${it.p}${it.f?' / ₹'+it.f:''}</div>
+    </div>
+    ${kp(it.k)}
+  </div>`;
+}
+
+function trow(it, blue) {
+  const url = PHOTOS[it.id];
+  const timg = url
+    ? `<img src="${url}" style="width:36px;height:36px;border-radius:7px;object-fit:cover;flex-shrink:0;margin-right:8px;" loading="lazy" onerror="this.style.display='none'"/>`
+    : `<div style="width:36px;height:36px;border-radius:7px;background:${it.bg};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;margin-right:8px;">${it.em}</div>`;
+  return `<div class="tr" onclick="openDetail('${it.id}')">
+    ${timg}
+    <span class="tn"><span class="vd"></span>${it.n}</span>
+    <div class="tr-r">
+      <span class="tp${blue?' b':''}">₹${it.p}${it.f?' / ₹'+it.f:''}</span>
+      ${kp(it.k)}
+    </div>
+  </div>`;
+}
+
+function ccard(it, blue) {
+  const url = PHOTOS[it.id];
+  const cimg = url
+    ? `<img src="${url}" class="cc-img" style="object-fit:cover;" loading="lazy" onerror="this.outerHTML='<div class=\\'cc-img\\' style=\\'background:${it.bg}\\'>${it.em}</div>'"/>`
+    : `<div class="cc-img" style="background:${it.bg}">${it.em}</div>`;
+  return `<div class="cc" onclick="openDetail('${it.id}')">
+    ${cimg}
+    <div class="cc-name"><span class="vd"></span>${it.n}</div>
+    <div class="cc-price" style="color:${blue?'var(--secondary)':'var(--primary)'}">₹${it.p} / ₹${it.f}</div>
+    ${kp(it.k)}
+  </div>`;
+}
+
+function frow(it) {
+  const lbl = it.lbl || '₹'+(it.f?it.p+' / ₹'+it.f:it.p);
+  const url = PHOTOS[it.id];
+  const fimg = url
+    ? `<img src="${url}" style="width:32px;height:32px;border-radius:7px;object-fit:cover;flex-shrink:0;margin-right:7px;" loading="lazy" onerror="this.style.display='none'"/>`
+    : `<div style="width:32px;height:32px;border-radius:7px;background:${it.bg};display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;margin-right:7px;">${it.em}</div>`;
+  return `<div class="fr" onclick="openDetail('${it.id}')">
+    ${fimg}
+    <span class="fr-n"><span class="vd"></span>${it.n}</span>
+    <span class="fr-p">${lbl}</span>
+    ${kp(it.k)}
+  </div>`;
+}
+
+function renderAll() {
+  document.getElementById('R_vs').innerHTML  = M.vs.map(i=>icard(i,false)).join('');
+  document.getElementById('R_pt').innerHTML  = M.pt.map(i=>tkrow(i)).join('');
+  document.getElementById('R_ro').innerHTML  = M.ro.map(i=>icard(i,false)).join('');
+  document.getElementById('R_fr').innerHTML  = M.fr.map(i=>trow(i,false)).join('');
+  document.getElementById('R_nd').innerHTML  = M.nd.map(i=>trow(i,false)).join('');
+  document.getElementById('R_cs').innerHTML  = M.cs.map(i=>trow(i,false)).join('');
+  document.getElementById('R_cu').innerHTML  = M.cu.map(i=>ccard(i,true)).join('');
+  document.getElementById('R_cc').innerHTML  = M.cc.map(i=>ccard(i,false)).join('');
+  document.getElementById('R_ra').innerHTML  = M.ra.map(i=>trow(i,true)).join('');
+  document.getElementById('R_ri').innerHTML  = M.ri.map(i=>trow(i,false)).join('');
+  document.getElementById('R_br').innerHTML  = M.br.map(i=>frow(i)).join('');
+  document.getElementById('R_dr').innerHTML  = M.dr.map(i=>frow(i)).join('');
+}
+
+function renderStrip() {
+  document.getElementById('photoStrip').innerHTML = STRIP.map(p=>
+    `<div class="strip-item">
+      <img src="${p.url}" class="strip-img" style="object-fit:cover;" loading="lazy"
+        onerror="this.outerHTML='<div class=\\'strip-img\\' style=\\'background:${p.bg}\\'>${p.em}</div>'"
+        alt="${p.cap}"/>
+      <div class="strip-cap">${p.cap}</div>
+    </div>`
+  ).join('');
+}
+
+// ── REVIEWS (persistent — shared across all users) ────────────────────────────
+let selStar = 0;
+const DEFAULT_REVIEWS = [
+  {name:'Priya M.',stars:5,text:'Best malai chaap in town! The stuffed chaap is absolutely divine. Will definitely come again.',date:'March 2024'},
+  {name:'Rohit S.',stars:4,text:'Great taste, quick service. K.F.C chaap is super crispy. Dal makhani is heavenly.',date:'Feb 2024'},
+  {name:'Sunita K.',stars:5,text:'Veg Deluxe Thali is great value for money. Everything was fresh and hot. Highly recommended!',date:'Jan 2024'},
+];
+let reviews = [...DEFAULT_REVIEWS];
+
+// Load reviews from shared persistent storage
+async function loadReviews() {
+  try {
+    const res = await window.storage.get('annapurna_reviews', true);
+    if (res && res.value) {
+      const stored = JSON.parse(res.value);
+      if (Array.isArray(stored) && stored.length) reviews = stored;
+    }
+  } catch(e) { /* storage empty or unavailable, use defaults */ }
+  renderReviews();
+}
+
+// Save reviews to shared persistent storage
+async function saveReviews() {
+  try {
+    await window.storage.set('annapurna_reviews', JSON.stringify(reviews), true);
+  } catch(e) { /* storage unavailable */ }
+}
+
+function setStar(n) {
+  selStar = n;
+  document.querySelectorAll('.star').forEach((b,i)=>b.classList.toggle('on',i<n));
+}
+
+function renderReviews() {
+  const el = document.getElementById('rvList');
+  if(!reviews.length){el.innerHTML=`<div class="no-rv">No reviews yet. Be the first! 🙏</div>`;return;}
+  const avg = (reviews.reduce((s,r)=>s+r.stars,0)/reviews.length).toFixed(1);
+  el.innerHTML = `<div class="rv-avg">
+    <div class="rv-num">${avg}</div>
+    <div>
+      <div style="font-size:15px">${'⭐'.repeat(Math.round(parseFloat(avg)))}</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:2px">${reviews.length} review${reviews.length!==1?'s':''}</div>
+    </div>
+  </div>` + reviews.slice().reverse().map(r=>`
+    <div class="rv-card">
+      <div class="rv-top">
+        <div><div class="rv-cname">${r.name}</div><div class="rv-date">${r.date}</div></div>
+        <div class="rv-stars">${'⭐'.repeat(r.stars)}</div>
+      </div>
+      <div class="rv-text">${r.text}</div>
+    </div>`).join('');
+}
+
+async function submitReview() {
+  const name = document.getElementById('rvName').value.trim();
+  const text = document.getElementById('rvTxt').value.trim();
+  if(!name){showToast('Please enter your name');return;}
+  if(!selStar){showToast('Please tap a star rating');return;}
+  if(!text){showToast('Please write your review');return;}
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const now = new Date();
+
+  // Disable button while saving
+  const btn = document.querySelector('.rv-sub');
+  btn.textContent = 'Posting…'; btn.disabled = true;
+
+  reviews.push({name, stars:selStar, text, date:`${months[now.getMonth()]} ${now.getFullYear()}`});
+  await saveReviews();
+  renderReviews();
+
+  document.getElementById('rvName').value='';
+  document.getElementById('rvTxt').value='';
+  setStar(0); selStar=0;
+  btn.textContent='Post Review 🙏'; btn.disabled=false;
+  showToast('🙏 Your review is live!');
+  setTimeout(()=>document.getElementById('rvList').scrollIntoView({behavior:'smooth',block:'nearest'}),300);
+}
+
+// ── SEARCH ────────────────────────────────────────────────────────────────────
+function toggleSearch(){
+  const b=document.getElementById('sBar');
+  b.classList.toggle('on');
+  if(b.classList.contains('on')) setTimeout(()=>document.getElementById('sInput').focus(),80);
+  else{document.getElementById('sInput').value='';doSearch('');}
+}
+function openSearch(){
+  setNav(1);
+  document.getElementById('sBar').classList.add('on');
+  setTimeout(()=>document.getElementById('sInput').focus(),80);
+}
+function doSearch(q){
+  const mm=document.getElementById('menuMain'), rs=document.getElementById('sRes');
+  q=q.trim().toLowerCase();
+  if(!q){mm.style.display='';rs.style.display='none';return;}
+  mm.style.display='none';rs.style.display='block';
+  const all=Object.values(M).flat();
+  const hits=all.filter(i=>i.n.toLowerCase().includes(q));
+  if(!hits.length){rs.innerHTML=`<div class="no-res">😔 No results for "<b>${q}</b>"</div>`;return;}
+  rs.innerHTML=`<div style="padding:12px 0 8px;font-size:13px;font-weight:700;color:var(--muted)">${hits.length} result${hits.length!==1?'s':''} for "<b>${q}</b>"</div>`+hits.map(i=>icard(i,false)).join('');
+}
+
+// ── NAV ───────────────────────────────────────────────────────────────────────
+function setNav(i){for(let j=0;j<4;j++)document.getElementById('n'+j).classList.toggle('on',i===j);}
+function goTo(id,btn){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function showMenu(){
+  setNav(0);
+  document.getElementById('menuMain').style.display='';
+  document.getElementById('sRes').style.display='none';
+  document.getElementById('sBar').classList.remove('on');
+  document.getElementById('sInput').value='';
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────────────────
+let tt;
+function showToast(m){
+  const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');
+  clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2500);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+renderAll();
+renderStrip();
+loadReviews();
+</script>
+</body>
+</html>
